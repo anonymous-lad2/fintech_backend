@@ -1,0 +1,21 @@
+# Exclude build artifacts — the Docker build copies source and runs Maven internally
+target/
+*.class
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+# Git
+.git/
+.gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files with secrets — never bake into image
+.env
+*.env.local

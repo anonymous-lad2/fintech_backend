@@ -1,0 +1,41 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets — never commit
+.env
+*.env.local
+application-prod.yml
+application-staging.yml
+
+# Logs
+*.log
+logs/
+
+# Docker
+docker-compose.override.yml

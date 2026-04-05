@@ -1,0 +1,84 @@
+spring:
+  application:
+    name: fintech-dashboard
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:finance_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
+    hikari:
+      # Connection pool tuning — sized for typical API workload
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000      # 30s — fail fast if DB unreachable
+      idle-timeout: 600000           # 10m — release idle connections
+      max-lifetime: 1800000          # 30m — recycle connections to avoid stale state
+      pool-name: FinanceDashboardPool
+
+  jpa:
+    hibernate:
+      # NEVER use create/create-drop in production — Flyway manages schema
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false              # Avoid lazy-loading anti-pattern in controllers
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 25             # Batch inserts for bulk operations
+        order_inserts: true
+        order_updates: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    out-of-order: true
+
+  # ── Application-specific properties ──────────────────────────────────────────
+app:
+  jwt:
+    # MUST be overridden via environment variable in production
+    # Minimum 32 characters for HS256 (256-bit key)
+    secret: ${JWT_SECRET:dsaukdfnekurfjewirjr83jr8q3jukeanfkeniue3}
+    expiration-seconds: ${JWT_EXPIRY_SECONDS:3600}   # 1 hour default
+
+  # ── Actuator (health & metrics) ───────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+  info:
+    env:
+      enabled: true
+
+
+info:
+  app:
+    name: Finance Dashboard API
+    version: 1.0.0
+
+  # ── Logging ───────────────────────────────────────────────────────────────────
+logging:
+  level:
+    root: INFO
+    com.fintech: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  # ── SpringDoc (Swagger UI) ────────────────────────────────────────────────────
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+  api-docs:
+    path: /v3/api-docs
