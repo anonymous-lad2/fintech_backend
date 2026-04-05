@@ -101,8 +101,8 @@ built with **Spring Boot 4.0**, **PostgreSQL**, **JWT authentication**, and **Do
 ```
 src/
 ├── main/
-│   ├── java/com/finance/dashboard/
-│   │   ├── FinanceDashboardApplication.java   # Entry point
+│   ├── java/com/fintech/
+│   │   ├── FintechDashboardApplication.java   # Entry point
 │   │   ├── config/
 │   │   │   ├── JwtProperties.java             # @ConfigurationProperties
 │   │   │   ├── OpenApiConfig.java             # Swagger setup
