@@ -24,7 +24,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-@PreAuthorize(("hasRole('ADMIN"))
+@PreAuthorize("hasRole('ADMIN')")
 @Tag(name = "User Management", description = "Admin-only user CRUD operations")
 @SecurityRequirement(name = "bearerAuth")
 public class UserController {
